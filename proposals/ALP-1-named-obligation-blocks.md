@@ -39,6 +39,12 @@ surface DomainIntegration {
 
 Framework-to-module boundaries are surfaces. A framework says "you must supply X with these properties" and "we give you Y with these guarantees". The current clause-based `provides:` lists actions an actor can invoke; it doesn't describe APIs the surface owner offers to its counterpart. Named obligation blocks with typed signatures and invariants capture this contract precisely.
 
+## Design consideration: invariant scope
+
+ALP-1 introduces `invariant:` scoped to obligation blocks. The tooling roadmap (TODO #2, property-based test generation) independently motivates top-level invariants that express system-wide properties spanning multiple rules, e.g. "account balance never goes negative". These are state assertions over entities rather than contract properties on an integration boundary.
+
+The committee should consider whether invariants within obligation blocks and top-level invariants are the same construct at different scopes or fundamentally different things. If the same, the design here should not foreclose top-level use. If different, the naming should distinguish them. The tooling roadmap also notes that invariants would feed property-based test generators (TODO #2), be validated at runtime via surface trace checking (TODO #3), and could point to external verification artefacts (TODO #5), all of which bear on the design.
+
 ## Questions for the committee
 
 1. `requires` and `provides` already have meanings elsewhere in the language (`requires:` as rule preconditions, `provides:` as surface action lists). Is the overloading acceptable, or should obligation blocks use distinct keywords (`expects`/`offers`, `demands`/`supplies`)?
