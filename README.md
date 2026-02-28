@@ -273,6 +273,12 @@ A developer asks the LLM to check whether the code still matches the Allium.
 
 Code and intent diverge silently over time. Allium gives the LLM something to check against, turning "does this look right?" into a concrete comparison with a definitive answer.
 
+## Verification
+
+When the [Allium CLI](https://github.com/juxt/allium-tools) is installed, `.allium` files are validated automatically after every write or edit in Claude Code. Install it via Homebrew (`brew tap juxt/allium && brew install allium`) or Cargo (`cargo install allium-cli`). Diagnostics appear inline and the model fixes issues in the same turn.
+
+Without the CLI, the skill falls back to validating against the language reference. The CLI catches more, particularly parser-level errors and cross-entity reference checks, so installing it is recommended if you're working with Allium regularly.
+
 ## Language governance
 
 Every change to Allium is debated by a [nine-member review panel](TEAM.md) before adoption. Each panellist represents a distinct design priority: simplicity, machine reasoning, composability, readability, formal rigour, domain modelling, developer experience, creative ambition and backward compatibility. The panel exists to surface tensions that any single perspective would miss.

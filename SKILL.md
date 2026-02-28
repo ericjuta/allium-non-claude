@@ -229,6 +229,10 @@ deferred InterviewerMatching.suggest    -- see: detailed/interviewer-matching.al
 open question "Admin ownership - should admins be assigned to specific roles?"
 ```
 
+## Verification
+
+When the `allium` CLI is installed, a hook validates `.allium` files automatically after every write or edit. Fix any reported issues before presenting the result. If the CLI is not available, verify against the [language reference](./references/language-reference.md).
+
 ## References
 
 - [Language reference](./references/language-reference.md) — full syntax for entities, rules, expressions, surfaces and validation
