@@ -8,14 +8,7 @@ A language for sharpening intent alongside implementation. [juxt.github.io/alliu
 
 ## Get started
 
-**Claude Code** (via the JUXT plugin marketplace):
-
-```
-/plugin marketplace add juxt/claude-plugins
-/plugin install allium
-```
-
-**Cursor, Windsurf, Copilot, Aider, Continue and 40+ other tools:**
+**Cursor, Windsurf, Copilot, Aider, Continue and other skills-compatible hosts:**
 
 ```
 npx skills add juxt/allium
@@ -28,13 +21,20 @@ Once installed, type `/allium` to get started. Allium examines your project and 
 
 Jump to what [Allium looks like in practice](#what-this-looks-like-in-practice).
 
-## Working with agents
+If you still use Claude Code, optional legacy compatibility files remain in [`.claude/`](.claude/):
 
-A [rule](.claude/rules/allium.md) loads automatically whenever Claude Code works with `.allium` files. It provides syntax guidance, naming conventions and common pitfalls without needing to invoke the skill. This keeps routine spec reads and edits fast.
+```
+/plugin marketplace add juxt/claude-plugins
+/plugin install allium
+```
 
-Two specialised agents handle `.allium` files in a delegated context. They load the language reference into their own conversation, keeping Allium syntax out of your main session and freeing you to work on implementation in parallel.
+## Working with skills
 
-**[tend](.claude/agents/tend.md)** grows and shapes specifications. It translates new requirements into well-formed specs, challenges vague requests and won't let ambiguity through. It works on `.allium` files only.
+A host-agnostic [Allium skill](SKILL.md) auto-triggers on `.allium` files for compatible skill runners. It provides syntax guidance, naming conventions and common pitfalls without needing to invoke a narrower helper. This keeps routine spec reads and edits fast.
+
+Two specialised companion skills handle `.allium` files in a delegated context. They load the language reference into their own conversation, keeping Allium syntax out of your main session and freeing you to work on implementation in parallel.
+
+**[tend](skills/tend/SKILL.md)** grows and shapes specifications. It translates new requirements into well-formed specs, challenges vague requests and won't let ambiguity through. It works on `.allium` files only.
 
 ```
 "Tend: we need a cancellation policy for subscriptions
@@ -45,7 +45,7 @@ Two specialised agents handle `.allium` files in a delegated context. They load 
 "Tend: restructure the authentication spec, the rules have grown unwieldy"
 ```
 
-**[weed](.claude/agents/weed.md)** finds where specifications and implementation have diverged. It reports mismatches and can update either side to match.
+**[weed](skills/weed/SKILL.md)** finds where specifications and implementation have diverged. It reports mismatches and can update either side to match.
 
 ```
 "Weed the auth spec against src/auth/"
@@ -275,7 +275,7 @@ Code and intent diverge silently over time. Allium gives the LLM something to ch
 
 ## Verification
 
-When the [Allium CLI](https://github.com/juxt/allium-tools) is installed, `.allium` files are validated automatically after every write or edit in Claude Code. Install it via Homebrew (`brew tap juxt/allium && brew install allium`) or Cargo (`cargo install allium-cli`). Diagnostics appear inline and the model fixes issues in the same turn.
+When the [Allium CLI](https://github.com/juxt/allium-tools) is installed, validate `.allium` files after edits with `allium check <path>` or `allium check`. Install it via Homebrew (`brew tap juxt/allium && brew install allium`) or Cargo (`cargo install allium-cli`). Hosts that support post-edit hooks can wire that command in automatically, but the portable expectation is simply that specs validate cleanly before you finish.
 
 Without the CLI, the skill falls back to validating against the language reference. The CLI catches more, particularly parser-level errors and cross-entity reference checks, so installing it is recommended if you're working with Allium regularly.
 

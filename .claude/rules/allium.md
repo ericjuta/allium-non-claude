@@ -4,6 +4,8 @@ globs: "**/*.allium"
 
 # Allium language
 
+> Legacy Claude Code companion. The canonical host-agnostic guidance lives in [`SKILL.md`](../../SKILL.md).
+
 Allium is a behavioural specification language for describing what systems should do, not how they do it. It has no compiler or runtime; LLMs and humans interpret it directly.
 
 ## File structure

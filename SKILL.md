@@ -25,13 +25,24 @@ Allium does NOT specify programming language or framework choices, database sche
 
 ## Routing table
 
-| Task | Tool | When |
-|------|------|------|
+| Task | Skill | When |
+|------|-------|------|
 | Writing or reading `.allium` files | this skill | You need language syntax and structure |
-| Building a spec through conversation | `elicit` skill | User describes a feature or behaviour they want to build |
-| Extracting a spec from existing code | `distill` skill | User has implementation code and wants a spec from it |
-| Modifying an existing spec | `tend` agent | User wants targeted changes to `.allium` files |
-| Checking spec-to-code alignment | `weed` agent | User wants to find or fix divergences between spec and implementation |
+| Targeted spec changes to existing `.allium` files | `tend` | Requirements are mostly known; modify behaviour spec safely |
+| Spec ↔ code divergence checks/alignment | `weed` | You need to compare implementation and spec, then reconcile |
+| Building a spec through conversation | `elicit` | User describes a feature or behaviour they want to build |
+| Extracting a spec from existing code | `distill` | User has implementation code and wants a spec from it |
+
+## Editing guardrails (apply on every `.allium` change)
+
+- Use `with` for relationships and `where` for projections. Do not swap them.
+- Use `transitions_to` for value changes; use `becomes` when the condition should also match creation with that value.
+- Use `Entity.created(...)` for entity creation in `ensures` clauses.
+- Capitalised pipe values are variants (`kind: Branch | Leaf`); lowercase values are enum literals (`status: pending | active`).
+- Temporal triggers must include a `requires` guard to prevent re-firing loops.
+- Prefer config values over magic numbers (`config.retry_window`, not raw literals).
+- Keep specs behavioural. Avoid implementation leakage (DB/API/framework details).
+- Use explicit lambda parameters in collection ops (`items.any(i => i.active)`).
 
 ## Quick syntax summary
 
@@ -263,7 +274,7 @@ open question "Admin ownership - should admins be assigned to specific roles?"
 
 ## Verification
 
-When the `allium` CLI is installed, a hook validates `.allium` files automatically after every write or edit. Fix any reported issues before presenting the result. If the CLI is not available, verify against the [language reference](./references/language-reference.md).
+After editing any `.allium` file, run `allium check <path-to-file>` (or `allium check` for the target set) before finalizing. Hosts with post-edit hooks can automate this, but the portable expectation is that you fix any reported issues before presenting results. If the CLI is unavailable, validate manually against the [language reference](./references/language-reference.md).
 
 ## References
 
